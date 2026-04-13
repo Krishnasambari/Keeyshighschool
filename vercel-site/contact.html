@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact Us — Keeys High School</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<!-- Top Bar -->
+<div class="top-bar">
+  <div class="container d-flex justify-content-between align-items-center">
+    <span><i class="fas fa-map-marker-alt me-1"></i> Near Masjid, Mattewada, Warangal – 506007</span>
+    <div class="d-flex gap-3">
+      <a href="https://www.facebook.com/Keeyshighschool/" target="_blank"><i class="fab fa-facebook-f me-1"></i>Facebook</a>
+      <a href="https://www.instagram.com/keeys1993/" target="_blank"><i class="fab fa-instagram me-1"></i>Instagram</a>
+    </div>
+  </div>
+</div>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark">
+  <div class="container">
+    <a class="navbar-brand" href="index.html">
+      <img src="images/logo.png" alt="Keeys High School Logo" class="brand-logo" />
+      <div class="brand-text ms-2">
+        <div class="school-name">Keeys High School</div>
+        <div class="school-tagline">Est. 1993 · Warangal</div>
+      </div>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="mainNav">
+      <ul class="navbar-nav ms-auto align-items-center gap-1">
+        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link active" href="contact.html">Contact</a></li>
+        <li class="nav-item"><a class="nav-link" href="admission.html">Admission</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Page Hero -->
+<div style="background:linear-gradient(135deg,var(--navy) 0%,var(--crimson-dark) 100%);padding:3rem 0;">
+  <div class="container text-center text-white">
+    <h1 class="fw-bold mb-2">Contact Us</h1>
+    <p style="opacity:0.8;">We'd love to hear from you. Reach out for admissions, enquiries or feedback.</p>
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb justify-content-center mb-0">
+        <li class="breadcrumb-item"><a href="index.html" style="color:var(--crimson-light);">Home</a></li>
+        <li class="breadcrumb-item active text-white">Contact</li>
+      </ol>
+    </nav>
+  </div>
+</div>
+
+<!-- Contact Content -->
+<section class="py-5">
+  <div class="container">
+    <div class="row g-5">
+      <!-- Contact Info -->
+      <div class="col-lg-4">
+        <div class="contact-info-box">
+          <h5 class="fw-bold text-navy mb-4">Get In Touch</h5>
+
+          <div class="contact-item">
+            <div class="contact-item-icon"><i class="fas fa-map-marker-alt"></i></div>
+            <div>
+              <div class="fw-semibold text-navy small">Address</div>
+              <div class="text-muted small mt-1">Near Masjid, Mattewada,<br/>Warangal – 506007,<br/>Telangana, India</div>
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <div class="contact-item-icon"><i class="fas fa-phone"></i></div>
+            <div>
+              <div class="fw-semibold text-navy small">Phone</div>
+              <div class="text-muted small mt-1">+91 XXXXX XXXXX<br/>+91 XXXXX XXXXX</div>
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <div class="contact-item-icon"><i class="fas fa-envelope"></i></div>
+            <div>
+              <div class="fw-semibold text-navy small">Email</div>
+              <div class="text-muted small mt-1">info@keeyshighschool.in<br/>admissions@keeyshighschool.in</div>
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <div class="contact-item-icon"><i class="fas fa-clock"></i></div>
+            <div>
+              <div class="fw-semibold text-navy small">Office Hours</div>
+              <div class="text-muted small mt-1">Monday – Saturday<br/>9:00 AM – 5:00 PM</div>
+            </div>
+          </div>
+
+          <div class="mt-3">
+            <div class="fw-semibold text-navy small mb-2">Follow Us</div>
+            <div class="d-flex gap-2">
+              <a href="https://www.facebook.com/Keeyshighschool/" target="_blank"
+                 class="btn btn-sm d-flex align-items-center gap-1"
+                 style="background:#1877f2;color:white;border-radius:8px;">
+                <i class="fab fa-facebook-f"></i> Facebook
+              </a>
+              <a href="https://www.instagram.com/keeys1993/" target="_blank"
+                 class="btn btn-sm d-flex align-items-center gap-1"
+                 style="background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);color:white;border-radius:8px;">
+                <i class="fab fa-instagram"></i> Instagram
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact Form -->
+      <div class="col-lg-8">
+        <div class="form-section">
+          <h5 class="fw-bold text-navy mb-1">Send Us a Message</h5>
+          <p class="text-muted small mb-4">Fill out the form below and we'll get back to you within 24 hours.</p>
+
+          <div id="contactAlert" style="display:none;" class="mb-3"></div>
+
+          <form id="contactForm" novalidate>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label">Full Name <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="name" placeholder="Your full name" required />
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Email Address <span class="text-danger">*</span></label>
+                <input type="email" class="form-control" id="email" placeholder="your@email.com" required />
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Phone Number</label>
+                <input type="tel" class="form-control" id="phone" placeholder="+91 XXXXX XXXXX" />
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Subject</label>
+                <select class="form-select" id="subject">
+                  <option value="General Enquiry">General Enquiry</option>
+                  <option value="Admission Enquiry">Admission Enquiry</option>
+                  <option value="Fee Related">Fee Related</option>
+                  <option value="Academic">Academic</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+              <div class="col-12">
+                <label class="form-label">Message <span class="text-danger">*</span></label>
+                <textarea class="form-control" id="message" rows="5"
+                  placeholder="Write your message here..." required></textarea>
+              </div>
+              <div class="col-12">
+                <button type="submit" class="btn btn-gold px-4 d-inline-flex align-items-center gap-2" id="submitBtn">
+                  <i class="fas fa-paper-plane"></i> Send Message
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Google Maps -->
+    <div class="row mt-5">
+      <div class="col-12">
+        <h5 class="fw-bold text-navy mb-3"><i class="fas fa-map-marked-alt me-2 text-gold"></i>Our Location</h5>
+        <div class="map-container">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3797.0!2d79.5941!3d17.9784!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTfCsDU4JzQyLjMiTiA3OcKwMzUnMzguOCJF!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
+            width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+        </div>
+        <p class="text-muted small mt-2">
+          <i class="fas fa-info-circle me-1"></i>
+          Keeys High School — Near Masjid, Mattewada, Warangal – 506007, Telangana
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-md-6">
+        <div class="fw-bold text-white mb-2">Keeys High School</div>
+        <p class="small" style="opacity:0.7;">Near Masjid, Mattewada, Warangal – 506007, Telangana</p>
+      </div>
+      <div class="col-md-6 text-md-end">
+        <div class="social-links justify-content-md-end">
+          <a href="https://www.facebook.com/Keeyshighschool/" target="_blank" class="social-link"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://www.instagram.com/keeys1993/" target="_blank" class="social-link"><i class="fab fa-instagram"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom mt-4">
+    <div class="container">
+      &copy; 2025 Keeys High School, Warangal. All Rights Reserved.
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  document.getElementById('contactForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const alertEl = document.getElementById('contactAlert');
+    const btn = document.getElementById('submitBtn');
+
+    const name    = document.getElementById('name').value.trim();
+    const email   = document.getElementById('email').value.trim();
+    const message = document.getElementById('message').value.trim();
+
+    if (!name || !email || !message) {
+      alertEl.className = 'alert-error-custom';
+      alertEl.textContent = 'Please fill in all required fields.';
+      alertEl.style.display = 'block';
+      return;
+    }
+
+    if (message.length < 10) {
+      alertEl.className = 'alert-error-custom';
+      alertEl.textContent = 'Message must be at least 10 characters.';
+      alertEl.style.display = 'block';
+      return;
+    }
+
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Sending...';
+    alertEl.style.display = 'none';
+
+    // Simulate sending for static site
+    setTimeout(function() {
+      alertEl.className = 'alert-success-custom';
+      alertEl.textContent = 'Thank you! Your message has been received. We will get back to you within 24 hours.';
+      alertEl.style.display = 'block';
+      document.getElementById('contactForm').reset();
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
+    }, 1000);
+  });
+</script>
+</body>
+</html>
