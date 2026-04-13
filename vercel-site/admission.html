@@ -93,6 +93,9 @@
         </div>
 
         <form id="admissionForm" class="form-section" novalidate>
+          <input type="hidden" name="access_key" value="4660e688-2028-4c1c-b803-6c265d09f853" />
+          <input type="hidden" name="subject" value="New Admission Application — Keeys High School" />
+          <input type="hidden" name="from_name" value="Keeys High School Website" />
           <!-- Section 1: Student Details -->
           <div class="mb-4">
             <h6 class="fw-bold text-navy d-flex align-items-center gap-2 mb-3">
@@ -263,11 +266,49 @@
     btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Submitting...';
     alertEl.style.display = 'none';
 
-    // Simulate submission for static site
-    setTimeout(function() {
-      document.getElementById('admissionForm').style.display = 'none';
-      document.getElementById('successCard').style.display = 'block';
-    }, 1000);
+    const form = document.getElementById('admissionForm');
+    const formData = {
+      access_key: form.querySelector('[name="access_key"]').value,
+      subject: form.querySelector('[name="subject"]').value,
+      from_name: form.querySelector('[name="from_name"]').value,
+      student_name: studentName,
+      date_of_birth: dob,
+      gender: gender,
+      class_applying: cls,
+      previous_school: form.querySelector('[name="previous_school"]').value.trim(),
+      parent_name: parentName,
+      parent_relation: form.querySelector('[name="parent_relation"]').value,
+      contact_number: contact,
+      email: form.querySelector('[name="email"]').value.trim(),
+      address: form.querySelector('[name="address"]').value.trim(),
+      notes: form.querySelector('[name="notes"]').value.trim()
+    };
+
+    fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(formData)
+    })
+    .then(function(res) { return res.json(); })
+    .then(function(data) {
+      if (data.success) {
+        document.getElementById('admissionForm').style.display = 'none';
+        document.getElementById('successCard').style.display = 'block';
+      } else {
+        alertEl.className = 'alert-error-custom';
+        alertEl.textContent = data.message || 'Submission failed. Please try again.';
+        alertEl.style.display = 'block';
+      }
+    })
+    .catch(function() {
+      alertEl.className = 'alert-error-custom';
+      alertEl.textContent = 'Network error. Please try again.';
+      alertEl.style.display = 'block';
+    })
+    .finally(function() {
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit Application';
+    });
   });
 </script>
 </body>

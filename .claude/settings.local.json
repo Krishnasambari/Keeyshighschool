@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:localhost)",
+      "Bash(mkdir -p \"D:/Ongiing_projects/static-page-keeys/vercel-site/css\" \"D:/Ongiing_projects/static-page-keeys/vercel-site/js\" \"D:/Ongiing_projects/static-page-keeys/vercel-site/images\")",
+      "Bash(cp \"D:/Ongiing_projects/static-page-keeys/frontend/images/logo.png\" \"D:/Ongiing_projects/static-page-keeys/vercel-site/images/\")",
+      "Bash(cp \"D:/Ongiing_projects/static-page-keeys/frontend/images/dress.png\" \"D:/Ongiing_projects/static-page-keeys/vercel-site/images/\")",
+      "Bash(npx --version)",
+      "Bash(npx serve:*)",
+      "WebFetch(domain:keeyshighschool.vercel.app)"
+    ]
+  }
+}

@@ -126,6 +126,9 @@
           <div id="contactAlert" style="display:none;" class="mb-3"></div>
 
           <form id="contactForm" novalidate>
+            <input type="hidden" name="access_key" value="4660e688-2028-4c1c-b803-6c265d09f853" />
+            <input type="hidden" name="subject" value="New Contact Message — Keeys High School" />
+            <input type="hidden" name="from_name" value="Keeys High School Website" />
             <div class="row g-3">
               <div class="col-md-6">
                 <label class="form-label">Full Name <span class="text-danger">*</span></label>
@@ -237,15 +240,42 @@
     btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Sending...';
     alertEl.style.display = 'none';
 
-    // Simulate sending for static site
-    setTimeout(function() {
-      alertEl.className = 'alert-success-custom';
-      alertEl.textContent = 'Thank you! Your message has been received. We will get back to you within 24 hours.';
+    const formData = {
+      access_key: document.querySelector('[name="access_key"]').value,
+      subject: document.querySelector('[name="subject"]').value,
+      from_name: document.querySelector('[name="from_name"]').value,
+      name, email,
+      phone: document.getElementById('phone').value.trim(),
+      enquiry_type: document.getElementById('subject').value,
+      message
+    };
+
+    fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(formData)
+    })
+    .then(function(res) { return res.json(); })
+    .then(function(data) {
+      if (data.success) {
+        alertEl.className = 'alert-success-custom';
+        alertEl.textContent = 'Thank you! Your message has been received. We will get back to you within 24 hours.';
+        document.getElementById('contactForm').reset();
+      } else {
+        alertEl.className = 'alert-error-custom';
+        alertEl.textContent = data.message || 'Something went wrong. Please try again.';
+      }
       alertEl.style.display = 'block';
-      document.getElementById('contactForm').reset();
+    })
+    .catch(function() {
+      alertEl.className = 'alert-error-custom';
+      alertEl.textContent = 'Network error. Please try again.';
+      alertEl.style.display = 'block';
+    })
+    .finally(function() {
       btn.disabled = false;
       btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
-    }, 1000);
+    });
   });
 </script>
 </body>
