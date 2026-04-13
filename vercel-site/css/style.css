@@ -503,6 +503,11 @@ footer ul li a:hover { color: #e88080; }
 .bg-crimson    { background: var(--crimson) !important; }
 .bg-navy       { background: var(--navy) !important; }
 
+/* ── Anchor scroll offset (accounts for sticky navbar) ── */
+#about, #academics, #announcements {
+  scroll-margin-top: 70px;
+}
+
 /* ── Responsive ──────────────────────────────────────── */
 @media (max-width: 768px) {
   .hero-section { min-height: 390px; }
