@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gallery — Keeys High School, Warangal</title>
+  <meta name="description" content="Photo and video gallery of Keeys High School – events, activities, and campus life." />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    /* ── Gallery page extras ─────────────────────────── */
+    .gallery-hero {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 50%, #1a0808 100%);
+      padding: 3.5rem 0 2.5rem;
+      border-bottom: 4px solid var(--crimson);
+    }
+
+    /* Tabs */
+    .gallery-tabs {
+      display: flex;
+      gap: 6px;
+      justify-content: center;
+      margin-bottom: 2.5rem;
+      flex-wrap: wrap;
+    }
+
+    .gallery-tab-btn {
+      padding: 0.55rem 1.6rem;
+      border-radius: 30px;
+      border: 2px solid var(--crimson);
+      background: transparent;
+      color: var(--crimson);
+      font-weight: 600;
+      font-size: 0.92rem;
+      cursor: pointer;
+      transition: all 0.22s;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .gallery-tab-btn.active,
+    .gallery-tab-btn:hover {
+      background: var(--crimson);
+      color: var(--white);
+    }
+
+    /* Image grid */
+    .img-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 14px;
+    }
+
+    .img-card {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      aspect-ratio: 4/3;
+      background: #e9e0e0;
+      position: relative;
+    }
+
+    .img-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.35s;
+    }
+
+    .img-card:hover img { transform: scale(1.06); }
+
+    .img-card .img-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(139,26,26,0.45);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.25s;
+    }
+
+    .img-card:hover .img-overlay { opacity: 1; }
+
+    .img-overlay i { font-size: 2rem; color: white; }
+
+    /* Video grid */
+    .vid-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 18px;
+    }
+
+    .vid-card {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      background: var(--white);
+      border: 1px solid var(--border);
+    }
+
+    .vid-card video {
+      width: 100%;
+      display: block;
+      background: #000;
+      max-height: 220px;
+      object-fit: cover;
+    }
+
+    .vid-card .vid-label {
+      padding: 0.6rem 0.9rem;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Empty state */
+    .empty-state {
+      text-align: center;
+      padding: 4rem 1rem;
+      color: var(--text-muted);
+    }
+
+    .empty-state i { font-size: 3.5rem; color: #d4c5c5; margin-bottom: 1rem; display: block; }
+
+    /* Lightbox */
+    #lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.92);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #lightbox.open { display: flex; }
+
+    #lightbox img {
+      max-width: 92vw;
+      max-height: 88vh;
+      border-radius: var(--radius-lg);
+      box-shadow: 0 0 60px rgba(0,0,0,0.8);
+      object-fit: contain;
+    }
+
+    #lightbox-close {
+      position: absolute;
+      top: 18px;
+      right: 22px;
+      color: white;
+      font-size: 2rem;
+      cursor: pointer;
+      line-height: 1;
+      opacity: 0.8;
+      transition: opacity 0.2s;
+    }
+
+    #lightbox-close:hover { opacity: 1; }
+
+    #lightbox-prev,
+    #lightbox-next {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(139,26,26,0.75);
+      color: white;
+      border: none;
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      font-size: 1.2rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+
+    #lightbox-prev { left: 16px; }
+    #lightbox-next { right: 16px; }
+    #lightbox-prev:hover, #lightbox-next:hover { background: var(--crimson); }
+
+    #lightbox-counter {
+      position: absolute;
+      bottom: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: rgba(255,255,255,0.7);
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Top Bar ──────────────────────────────────────────────── -->
+<div class="top-bar">
+  <div class="container d-flex justify-content-between align-items-center flex-wrap gap-2">
+    <span><i class="fas fa-map-marker-alt me-1"></i> Near Masjid, Mattewada, Warangal – 506007, Telangana</span>
+    <div class="d-flex gap-3">
+      <a href="https://www.youtube.com/@keeyshighschool1993" target="_blank"><i class="fab fa-youtube me-1"></i>YouTube</a>
+      <a href="https://www.instagram.com/keeys1993?igsh=MTA5dGxlanJ6OW0wYg%3D%3D" target="_blank"><i class="fab fa-instagram me-1"></i>Instagram</a>
+      <span><i class="fas fa-phone me-1"></i>+91 XXXXX XXXXX</span>
+    </div>
+  </div>
+</div>
+
+<!-- ── Navbar ────────────────────────────────────────────────── -->
+<nav class="navbar navbar-expand-lg navbar-dark">
+  <div class="container">
+    <a class="navbar-brand" href="index.html">
+      <img src="images/logo.png" alt="Keeys High School Logo" class="brand-logo" />
+      <div class="brand-text ms-2">
+        <div class="school-name">Keeys High School</div>
+        <div class="school-tagline">Est. 1993 · Warangal</div>
+      </div>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="mainNav">
+      <ul class="navbar-nav ms-auto align-items-center gap-1">
+        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="index.html#about">About</a></li>
+        <li class="nav-item"><a class="nav-link" href="index.html#academics">Academics</a></li>
+        <li class="nav-item"><a class="nav-link" href="index.html#announcements">News</a></li>
+        <li class="nav-item"><a class="nav-link active" href="gallery.html">Gallery</a></li>
+        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+        <li class="nav-item"><a class="nav-link" href="admission.html">Admission</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- ── Gallery Hero ──────────────────────────────────────────── -->
+<section class="gallery-hero">
+  <div class="container text-center">
+    <span class="hero-badge">Photos &amp; Videos</span>
+    <h1 class="hero-title mt-2">School Gallery</h1>
+    <p style="color:rgba(255,255,255,0.72);max-width:520px;margin:0.8rem auto 0;font-size:0.97rem;">
+      Moments from events, activities, and campus life at Keeys High School.
+    </p>
+  </div>
+</section>
+
+<!-- ── Gallery Content ───────────────────────────────────────── -->
+<section class="py-5" style="background:var(--bg-light);">
+  <div class="container">
+
+    <!-- Tab buttons -->
+    <div class="gallery-tabs">
+      <button class="gallery-tab-btn active" onclick="showTab('images', this)">
+        <i class="fas fa-images"></i> Photos
+        <span id="img-count" class="ms-1"></span>
+      </button>
+      <button class="gallery-tab-btn" onclick="showTab('videos', this)">
+        <i class="fas fa-film"></i> Videos
+        <span id="vid-count" class="ms-1"></span>
+      </button>
+    </div>
+
+    <!-- Images tab -->
+    <div id="tab-images">
+      <div id="img-grid" class="img-grid"></div>
+    </div>
+
+    <!-- Videos tab -->
+    <div id="tab-videos" style="display:none;">
+      <div id="vid-grid" class="vid-grid"></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── Lightbox ──────────────────────────────────────────────── -->
+<div id="lightbox">
+  <span id="lightbox-close" onclick="closeLightbox()">&times;</span>
+  <button id="lightbox-prev" onclick="lightboxNav(-1)"><i class="fas fa-chevron-left"></i></button>
+  <img id="lightbox-img" src="" alt="" />
+  <button id="lightbox-next" onclick="lightboxNav(1)"><i class="fas fa-chevron-right"></i></button>
+  <div id="lightbox-counter"></div>
+</div>
+
+<!-- ── Footer ────────────────────────────────────────────────── -->
+<footer>
+  <div class="container">
+    <div class="row g-5">
+      <div class="col-lg-4">
+        <div class="footer-brand d-flex align-items-center gap-3 mb-3">
+          <img src="images/logo.png" alt="Keeys High School" style="width:50px;height:50px;border-radius:50%;object-fit:cover;border:2px solid var(--crimson);" />
+          <div>
+            <div class="school-name">Keeys High School</div>
+            <div class="school-tagline">Est. 1993 · Warangal</div>
+          </div>
+        </div>
+        <p class="small" style="opacity:0.7;line-height:1.7;">
+          Providing quality education from Nursery to 10th Standard under Telangana State Syllabus
+          since 1993. Nurturing young minds with values, knowledge, and vision.
+        </p>
+        <div class="social-links">
+          <a href="https://www.youtube.com/@keeyshighschool1993" target="_blank" class="social-link"><i class="fab fa-youtube"></i></a>
+          <a href="https://www.instagram.com/keeys1993?igsh=MTA5dGxlanJ6OW0wYg%3D%3D" target="_blank" class="social-link"><i class="fab fa-instagram"></i></a>
+        </div>
+      </div>
+      <div class="col-6 col-lg-2">
+        <h5>Quick Links</h5>
+        <ul>
+          <li><a href="index.html"><i class="fas fa-chevron-right me-1" style="font-size:0.65rem;"></i>Home</a></li>
+          <li><a href="index.html#about"><i class="fas fa-chevron-right me-1" style="font-size:0.65rem;"></i>About</a></li>
+          <li><a href="index.html#academics"><i class="fas fa-chevron-right me-1" style="font-size:0.65rem;"></i>Academics</a></li>
+          <li><a href="gallery.html"><i class="fas fa-chevron-right me-1" style="font-size:0.65rem;"></i>Gallery</a></li>
+          <li><a href="contact.html"><i class="fas fa-chevron-right me-1" style="font-size:0.65rem;"></i>Contact</a></li>
+        </ul>
+      </div>
+      <div class="col-6 col-lg-2">
+        <h5>Admissions</h5>
+        <ul>
+          <li><a href="admission.html"><i class="fas fa-chevron-right me-1" style="font-size:0.65rem;"></i>Apply Online</a></li>
+          <li><a href="contact.html"><i class="fas fa-chevron-right me-1" style="font-size:0.65rem;"></i>Enquire</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4">
+        <h5>Contact Information</h5>
+        <ul>
+          <li class="d-flex align-items-start gap-2 mb-2">
+            <i class="fas fa-map-marker-alt mt-1" style="color:var(--crimson-light);"></i>
+            <span class="small">Near Masjid, Mattewada,<br/>Warangal – 506007, Telangana</span>
+          </li>
+          <li class="d-flex align-items-center gap-2 mb-2">
+            <i class="fas fa-phone" style="color:var(--crimson-light);"></i>
+            <span class="small">+91 XXXXX XXXXX</span>
+          </li>
+          <li class="d-flex align-items-center gap-2">
+            <i class="fas fa-envelope" style="color:var(--crimson-light);"></i>
+            <span class="small">info@keeyshighschool.in</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="container">
+      <span>&copy; 2025 Keeys High School, Warangal. All Rights Reserved.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  let allImages = [];
+  let currentIndex = 0;
+
+  function basename(p) {
+    return p.split('/').pop();
+  }
+
+  function renderImages(images) {
+    const grid = document.getElementById('img-grid');
+    document.getElementById('img-count').textContent = images.length ? '(' + images.length + ')' : '';
+
+    if (!images.length) {
+      grid.innerHTML = '<div class="empty-state"><i class="fas fa-images"></i><p class="fw-semibold">No photos yet.</p><p class="small">Add images to the <code>gallery/images/</code> folder and redeploy.</p></div>';
+      return;
+    }
+
+    allImages = images;
+    grid.innerHTML = images.map(function(src, i) {
+      return '<div class="img-card" onclick="openLightbox(' + i + ')">' +
+               '<img src="' + src + '" alt="Gallery photo ' + (i + 1) + '" loading="lazy" />' +
+               '<div class="img-overlay"><i class="fas fa-expand"></i></div>' +
+             '</div>';
+    }).join('');
+  }
+
+  function renderVideos(videos) {
+    const grid = document.getElementById('vid-grid');
+    document.getElementById('vid-count').textContent = videos.length ? '(' + videos.length + ')' : '';
+
+    if (!videos.length) {
+      grid.innerHTML = '<div class="empty-state"><i class="fas fa-film"></i><p class="fw-semibold">No videos yet.</p><p class="small">Add videos to the <code>gallery/videos/</code> folder and redeploy.</p></div>';
+      return;
+    }
+
+    grid.innerHTML = videos.map(function(src) {
+      return '<div class="vid-card">' +
+               '<video controls preload="metadata">' +
+                 '<source src="' + src + '" type="video/' + src.split('.').pop() + '">' +
+               '</video>' +
+               '<div class="vid-label"><i class="fas fa-video me-1" style="color:var(--crimson);"></i>' + basename(src) + '</div>' +
+             '</div>';
+    }).join('');
+  }
+
+  function showTab(name, btn) {
+    document.getElementById('tab-images').style.display = name === 'images' ? '' : 'none';
+    document.getElementById('tab-videos').style.display = name === 'videos' ? '' : 'none';
+    document.querySelectorAll('.gallery-tab-btn').forEach(function(b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+  }
+
+  // Lightbox
+  function openLightbox(index) {
+    currentIndex = index;
+    document.getElementById('lightbox-img').src = allImages[index];
+    updateCounter();
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function lightboxNav(dir) {
+    currentIndex = (currentIndex + dir + allImages.length) % allImages.length;
+    document.getElementById('lightbox-img').src = allImages[currentIndex];
+    updateCounter();
+  }
+
+  function updateCounter() {
+    document.getElementById('lightbox-counter').textContent = (currentIndex + 1) + ' / ' + allImages.length;
+  }
+
+  document.getElementById('lightbox').addEventListener('click', function(e) {
+    if (e.target === this) closeLightbox();
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (!document.getElementById('lightbox').classList.contains('open')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft')  lightboxNav(-1);
+    if (e.key === 'ArrowRight') lightboxNav(1);
+  });
+
+  // Load manifest
+  fetch('gallery-manifest.json')
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      renderImages(data.images || []);
+      renderVideos(data.videos || []);
+    })
+    .catch(function() {
+      renderImages([]);
+      renderVideos([]);
+    });
+</script>
+</body>
+</html>
